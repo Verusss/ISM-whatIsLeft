@@ -49,6 +49,10 @@ public class ItemApiController implements ItemApi {
         return new ResponseEntity<Item>(itemRepository.getOne(itemId), HttpStatus.OK);
     }
 
+    public @ResponseBody ResponseEntity<List<Item>> getItems(){
+        return new ResponseEntity<List<Item>>(itemRepository.findAll(), HttpStatus.OK);
+    }
+
     public ResponseEntity<Void> updateItemWithForm(@ApiParam(value = "ID of item that needs to be updated",required=true) @PathVariable("itemId") Long itemId,@ApiParam(value = "Updated name of the item") @Valid @RequestBody Item body) {
         Item item = itemRepository.getOne(itemId);
         item.setName(body.getName());

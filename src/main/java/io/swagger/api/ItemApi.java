@@ -56,6 +56,16 @@ public interface ItemApi {
             method = RequestMethod.GET)
     public ResponseEntity<Item> getItemById(@ApiParam(value = "ID of item to return",required=true) @PathVariable("itemId") Long itemId);
 
+    @ApiOperation(value = "Get all items", nickname = "getItems", notes = "Returns all items", response = Item.class, authorizations = {
+            @Authorization(value = "api_key")
+    }, tags={ "item", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successful operation", response = Item.class) })
+    @RequestMapping(value = "/items",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<List<Item>> getItems();
+
 
     @ApiOperation(value = "Updates an item with form data", nickname = "updateItemWithForm", notes = "", authorizations = {
             @Authorization(value = "whatIsLeft_auth", scopes = {
