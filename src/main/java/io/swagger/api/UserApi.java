@@ -71,11 +71,11 @@ public interface UserApi {
     public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be updated",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
 
 
-    @ApiOperation(value = "Remove current user account", nickname = "userRemoveUserDelete", notes = "This can only be done by the logged in user.", tags={ "user", })
+    @ApiOperation(value = "Remove current user account", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @RequestMapping(value = "/user/removeUser",
+    @RequestMapping(value = "/user/deleteUser",
         produces = { "application/json" },
         method = RequestMethod.DELETE)
-    public ResponseEntity<Void> userRemoveUserDelete();
+    public ResponseEntity<Void> deleteUser();
 }

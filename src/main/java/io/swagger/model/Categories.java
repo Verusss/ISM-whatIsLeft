@@ -5,13 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.*;
+
 /**
  * Categories
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-04-01T10:32:46.053Z")
-
+@Entity
 public class Categories   {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @JsonProperty("id")
   private Long id = null;
 
@@ -32,10 +36,6 @@ public class Categories   {
 
   public Long getId() {
     return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public Categories name(String name) {

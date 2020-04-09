@@ -34,9 +34,6 @@ public class Item   {
   @ElementCollection
   private List<String> photoUrls = new ArrayList<String>();
 
-  /**
-   * offer type
-   */
   public enum OfferTypeEnum {
     SELLING("selling"),
     
@@ -76,11 +73,8 @@ public class Item   {
   @JsonProperty("categories")
   @Valid
   @ElementCollection
-  private List<Integer> categories = null;
+  private List<Long> categories = null;
 
-  /**
-   * item status in the store
-   */
   public enum StatusEnum {
     AVAILABLE("available"),
     
@@ -123,10 +117,6 @@ public class Item   {
     return this;
   }
 
-  /**
-   * Get id
-   * @return id
-  **/
   @ApiModelProperty(value = "")
 
 
@@ -143,13 +133,8 @@ public class Item   {
     return this;
   }
 
-  /**
-   * Get name
-   * @return name
-  **/
   @ApiModelProperty(example = "hammer", required = true, value = "")
   @NotNull
-
 
   public String getName() {
     return name;
@@ -169,10 +154,6 @@ public class Item   {
     return this;
   }
 
-  /**
-   * Get photoUrls
-   * @return photoUrls
-  **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
   public List<String> getPhotoUrls() {
@@ -188,10 +169,6 @@ public class Item   {
     return this;
   }
 
-  /**
-   * offer type
-   * @return offerType
-  **/
   @ApiModelProperty(required = true, value = "offer type")
   @NotNull
   public OfferTypeEnum getOfferType() {
@@ -207,10 +184,6 @@ public class Item   {
     return this;
   }
 
-  /**
-   * Get desciption
-   * @return desciption
-  **/
   @ApiModelProperty(example = "Hammer which I used during last remont. Good state.", value = "")
   public String getDescription() {
     return description;
@@ -220,30 +193,26 @@ public class Item   {
     this.description = description;
   }
 
-  public Item categories(List<Integer> categories) {
+  public Item categories(List<Long> categories) {
     this.categories = categories;
     return this;
   }
 
-  public Item addCategoriesItem(Integer categoriesId) {
+  public Item addCategoriesItem(Long categoriesId) {
     if (this.categories == null) {
-      this.categories = new ArrayList<Integer>();
+      this.categories = new ArrayList<Long>();
     }
     this.categories.add(categoriesId);
     return this;
   }
 
-  /**
-   * Get categories
-   * @return categories
-  **/
   @ApiModelProperty(value = "categories")
   @Valid
-  public List<Integer> getCategories() {
+  public List<Long> getCategories() {
     return categories;
   }
 
-  public void setCategories(List<Integer> categories) {
+  public void setCategories(List<Long> categories) {
     this.categories = categories;
   }
 
@@ -252,10 +221,6 @@ public class Item   {
     return this;
   }
 
-  /**
-   * item status in the store
-   * @return status
-  **/
   @ApiModelProperty(value = "item status in the store")
   public StatusEnum getStatus() {
     return status;
@@ -270,10 +235,6 @@ public class Item   {
     return this;
   }
 
-  /**
-   * Get price
-   * @return price
-  **/
   @ApiModelProperty(value = "price")
   public Double getPrice() {
     return price;

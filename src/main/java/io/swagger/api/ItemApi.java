@@ -115,7 +115,7 @@ public interface ItemApi {
     @RequestMapping(value = "/item/findByCategories",
         produces = { "application/json" },
         method = RequestMethod.GET)
-    public ResponseEntity<List<Item>> findItemByCategories(@NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<String> categories);
+    public ResponseEntity<List<Item>> findItemByCategories(@NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<Long> categories);
 
 
     @ApiOperation(value = "Finds items by status", nickname = "findItemByStatus", notes = "Multiple status values can be provided with comma separated strings", response = Item.class, responseContainer = "List", authorizations = {
@@ -130,7 +130,7 @@ public interface ItemApi {
     @RequestMapping(value = "/item/findByStatus",
         produces = { "application/json" },
         method = RequestMethod.GET)
-    public ResponseEntity<List<Item>> findItemByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
+    public ResponseEntity<List<Item>> findItemByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, sold") @Valid @RequestParam(value = "status", required = true) String status);
 
 
     @ApiOperation(value = "Uploads an image.", nickname = "uploadFile", notes = "", response = ModelApiResponse.class, authorizations = {

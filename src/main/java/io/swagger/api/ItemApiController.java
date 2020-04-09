@@ -1,7 +1,5 @@
 package io.swagger.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.swagger.model.Item;
 import io.swagger.model.ModelApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +38,6 @@ public class ItemApiController implements ItemApi {
     }
 
     public ResponseEntity<Void> addItem(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Item body) {
-        String accept = request.getHeader("Accept");
         itemRepository.save(body);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
@@ -72,25 +69,15 @@ public class ItemApiController implements ItemApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Item>> findItemByCategories(@NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<String> categories) {
-        return new ResponseEntity<List<Item>>(HttpStatus.NOT_IMPLEMENTED);
+    public @ResponseBody ResponseEntity<List<Item>> findItemByCategories(@NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<Long> categories) {
+        return new ResponseEntity<List<Item>>(itemRepository.findByCategoriesIn(categories),HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Item>> findItemByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
-        return new ResponseEntity<List<Item>>(HttpStatus.NOT_IMPLEMENTED);
+    public @ResponseBody ResponseEntity<List<Item>> findItemByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) String status) {
+        return new ResponseEntity<List<Item>>(itemRepository.findByStatus(Item.StatusEnum.valueOf(status.toUpperCase())), HttpStatus.OK);
     }
 
     public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of item to update",required=true) @PathVariable("itemId") Long itemId,@ApiParam(value = "file to upload") @Valid @RequestPart(value="file", required=true) MultipartFile file,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<ModelApiResponse>(objectMapper.readValue("{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}", ModelApiResponse.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<ModelApiResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
         return new ResponseEntity<ModelApiResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
