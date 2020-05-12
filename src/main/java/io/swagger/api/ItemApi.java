@@ -149,4 +149,18 @@ public interface ItemApi {
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
     public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of item to update",required=true) @PathVariable("itemId") Long itemId,@ApiParam(value = "file to upload") @Valid @RequestPart(value="file", required=true) MultipartFile file,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata);
+
+    @ApiOperation(value = "Finds items by status and category", nickname = "findItemByStatusAndCategory", response = Item.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "whatIsLeft_auth", scopes = {
+                    @AuthorizationScope(scope = "read:items", description = "read your items"),
+                    @AuthorizationScope(scope = "write:items", description = "modify items in your account")
+            })
+    }, tags={ "item", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successful operation", response = Item.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Invalid status value") })
+    @RequestMapping(value = "/item/findByStatusAndCategories",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<List<Item>> findItemByStatusAndCategories(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, sold") @Valid @RequestParam(value = "status", required = true) String status, @NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<Long> categories);
 }

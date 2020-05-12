@@ -70,7 +70,7 @@ public class ItemApiController implements ItemApi {
     }
 
     public @ResponseBody ResponseEntity<List<Item>> findItemByCategories(@NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<Long> categories) {
-        return new ResponseEntity<List<Item>>(itemRepository.findByCategoriesIn(categories),HttpStatus.OK);
+        return new ResponseEntity<List<Item>>(itemRepository.findDistinctByCategoriesIn(categories),HttpStatus.OK);
     }
 
     public @ResponseBody ResponseEntity<List<Item>> findItemByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) String status) {
@@ -80,5 +80,10 @@ public class ItemApiController implements ItemApi {
     public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of item to update",required=true) @PathVariable("itemId") Long itemId,@ApiParam(value = "file to upload") @Valid @RequestPart(value="file", required=true) MultipartFile file,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata) {
         return new ResponseEntity<ModelApiResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
+
+    public ResponseEntity<List<Item>> findItemByStatusAndCategories(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, sold") @Valid @RequestParam(value = "status", required = true) String status, @NotNull @ApiParam(value = "Categories to filter by", required = true) @Valid @RequestParam(value = "categories", required = true) List<Long> categories){
+        return new ResponseEntity<List<Item>>(itemRepository.findDistinctByStatusAndCategoriesIn(Item.StatusEnum.valueOf(status.toUpperCase()), categories), HttpStatus.OK);
+    }
+
 
 }

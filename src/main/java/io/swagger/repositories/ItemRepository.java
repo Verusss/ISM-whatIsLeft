@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    List<Item> findByCategoriesIn(List<Long> categories);
+    List<Item> findDistinctByCategoriesIn(List<Long> categories);
     List<Item> findByStatus(Item.StatusEnum status);
+    List<Item> findDistinctByStatusAndCategoriesIn(Item.StatusEnum status, List<Long> categories);
 }
