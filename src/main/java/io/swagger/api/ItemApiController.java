@@ -1,5 +1,7 @@
 package io.swagger.api;
 
+import com.google.gson.Gson;
+import io.swagger.aspect.ItemAspect;
 import io.swagger.model.Item;
 import io.swagger.model.ModelApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +29,8 @@ public class ItemApiController implements ItemApi {
 
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private ItemAspect itemAspect;
     private static final Logger log = LoggerFactory.getLogger(ItemApiController.class);
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;
@@ -85,5 +89,12 @@ public class ItemApiController implements ItemApi {
         return new ResponseEntity<List<Item>>(itemRepository.findDistinctByStatusAndCategoriesIn(Item.StatusEnum.valueOf(status.toUpperCase()), categories), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/item/numberOfMethodCalls",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity<String> getNumberOfMethodCalls (){
+        Gson gson = new Gson();
+        return new ResponseEntity<String>(gson.toJson(this.itemAspect.getFunctionsCalls()), HttpStatus.OK);
+    }
 
 }
